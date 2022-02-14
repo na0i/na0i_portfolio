@@ -4,29 +4,30 @@ import './MapContainer.css';
 import axios from "axios";
 
 function MapContainer(){
-  let [currentLocation] = useState(['위도', '경도']);
-  let [currentDirectory, updatecurrentDirectory] = useState('');
-  let [currentWeather] = useState('맑음');
+  let [currentLocation, updateCurrentLocation] = useState(['37.20312020555898', '37.20312020555898']);
+  let [currentDirectory, updateCurrentDirectory] = useState('');
+  let [currentWeather, updateCurrentWeather] = useState('맑음');
 
   function getLocation(){
-    let nowLatitude = '';
-    let nowLongitude = '';
+    // GPS로 주소 받기(위도, 경도)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        currentLocation[0] = position.coords.latitude;
-        currentLocation[1] = position.coords.longitude;
+        let newLocationArray = [...currentLocation];
+        newLocationArray[0] = position.coords.latitude;
+        newLocationArray[1] = position.coords.longitude;
+        updateCurrentLocation(newLocationArray);
 
+        // 위도, 경도 → 주소로 변환
         /*global kakao*/
         const geocoder = new kakao.maps.services.Geocoder();
         const callback = function(result, status) {
           if (status === kakao.maps.services.Status.OK) {
-            let newArray = [...currentDirectory];
-            newArray[0] = result[0].address_name;
-            updatecurrentDirectory(newArray);
-            // currentLocation = result[0].address_name;
+            let newDirectoryArray = [...currentDirectory];
+            newDirectoryArray[0] = result[0].address_name;
+            updateCurrentDirectory(newDirectoryArray);
           }
         };
-        geocoder.coord2RegionCode(nowLongitude, nowLatitude, callback);     
+        geocoder.coord2RegionCode(currentLocation[1], currentLocation[0], callback);     
       });
     } else {
       console.log('error');
@@ -40,7 +41,7 @@ function MapContainer(){
       method: 'get',
     })
     .then((res) => {
-      console.log(res.data.weather);
+      updateCurrentWeather(res.data.weather[0].main);
     })
     .catch((err) => console.log(err))
   }
@@ -52,10 +53,12 @@ function MapContainer(){
 
   return (
     <div className="map">
-      {currentDirectory}
+      현주소 {currentDirectory}
       <br></br>
-      {currentLocation[0]}<br></br>
-      {currentLocation[1]}
+      위도 {currentLocation[0]}<br></br>
+      경도 {currentLocation[1]}
+      <br></br>
+      현재 당신의 날씨는 {currentWeather}
     </div>
   )
 };
