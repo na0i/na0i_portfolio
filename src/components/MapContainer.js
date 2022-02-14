@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useEffect } from 'react';
-import './MapContainer.css';
 import axios from "axios";
 
 function MapContainer(){
@@ -8,6 +7,7 @@ function MapContainer(){
   let [currentDirectory, updateCurrentDirectory] = useState('');
   let [currentWeather, updateCurrentWeather] = useState('맑음');
 
+  // 좌표로 주소 파악
   function getLocation(){
     // GPS로 주소 받기(위도, 경도)
     if (navigator.geolocation) {
@@ -35,6 +35,7 @@ function MapContainer(){
 
   };
 
+  // 좌표로 날씨 파악
   function getWeather(){
     axios({
       url: 'https://api.openweathermap.org/data/2.5/weather?lat=' + currentLocation[0] + '&lon=' + currentLocation[1] + '&appid=f53c6e973671e4859c85ac4761fac792',
@@ -52,7 +53,7 @@ function MapContainer(){
   });
 
   return (
-    <div className="map">
+    <div>
       현주소 {currentDirectory}
       <br></br>
       위도 {currentLocation[0]}<br></br>
