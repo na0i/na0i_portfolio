@@ -8,7 +8,7 @@ function Map(){
   let [currentWeather, updateCurrentWeather] = useState('');
 
   // 좌표로 주소 파악
-  async function getLocation(){
+  function getLocation(){
     // GPS로 주소 받기(위도, 경도)
     if (navigator.geolocation) {
       console.log(1, currentLocation, currentDirectory);
@@ -28,6 +28,9 @@ function Map(){
             updateCurrentDirectory(newDirectoryArray);
           }
         };
+
+        // 더 효율적으로 코드를 쓸 수 없을까?
+        // ajax 요청이 아니지만 비동기로 콜백할 수 있는 방법을 생각해보자.
         console.log(2, currentLocation, currentDirectory);
         if (currentLocation[0] !== '' && currentLocation[1] !== ''){
           geocoder.coord2RegionCode(currentLocation[1], currentLocation[0], callback);
