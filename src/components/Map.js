@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import { useEffect } from 'react';
 import axios from "axios";
 
-function MapContainer(){
-  let [currentLocation, updateCurrentLocation] = useState(['37.20312020555898', '37.20312020555898']);
+function Map(){
+  let [currentLocation, updateCurrentLocation] = useState(['', '']);
   let [currentDirectory, updateCurrentDirectory] = useState('');
-  let [currentWeather, updateCurrentWeather] = useState('맑음');
+  let [currentWeather, updateCurrentWeather] = useState('');
 
   // 좌표로 주소 파악
-  function getLocation(){
+  async function getLocation(){
     // GPS로 주소 받기(위도, 경도)
     if (navigator.geolocation) {
+      console.log(1, currentLocation, currentDirectory);
       navigator.geolocation.getCurrentPosition((position) => {
         let newLocationArray = [...currentLocation];
         newLocationArray[0] = position.coords.latitude;
@@ -27,13 +28,19 @@ function MapContainer(){
             updateCurrentDirectory(newDirectoryArray);
           }
         };
-        geocoder.coord2RegionCode(currentLocation[1], currentLocation[0], callback);     
+        console.log(2, currentLocation, currentDirectory);
+        if (currentLocation[0] !== '' && currentLocation[1] !== ''){
+          geocoder.coord2RegionCode(currentLocation[1], currentLocation[0], callback);
+          getWeather();
+        }
       });
     } else {
       console.log('error');
     };
 
   };
+
+  
 
   // 좌표로 날씨 파악
   function getWeather(){
@@ -44,13 +51,16 @@ function MapContainer(){
     .then((res) => {
       updateCurrentWeather(res.data.weather[0].main);
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(3, currentLocation, currentDirectory);
+      console.log(err);
+    })
   }
+
 
   useEffect(() => {
     getLocation();
-    getWeather();
-  });
+  },[getLocation]);
 
   return (
     <div>
@@ -64,4 +74,4 @@ function MapContainer(){
   )
 };
 
-export default MapContainer;
+export default Map;
