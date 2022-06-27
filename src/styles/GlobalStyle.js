@@ -1,8 +1,22 @@
-import { createGlobalStyle } from 'styled-components';
-import reset from 'styled-reset';
+import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
+import LeferiPointWhite from "src/assets/fonts/LeferiPointWhite.ttf";
+import LeferiBaseBold from "src/assets/fonts/LeferiBaseBold.ttf";
 
 const globalStyles = createGlobalStyle`
     ${reset};
+	@font-face {
+		font-family: "LeferiPointWhite";
+		src: local("LeferiPointWhite"),
+		url(${LeferiPointWhite}) format('truetype');
+		font-weight: normal;
+	}
+	@font-face {
+		font-family: "LeferiBaseBold";
+		src: local("LeferiBaseBold"),
+		url(${LeferiBaseBold}) format('truetype');
+		font-weight: bold;
+	}
 	* {
 		box-sizing: border-box;
 		scroll-behavior: smooth;	
