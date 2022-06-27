@@ -1,11 +1,45 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 const Profile = () => {
+  const [imgFileUrl, setImgFileUrl] = useState(null);
+  const imgRef = useRef(null);
+  const fileInputRef = useRef(null);
+  const fileReader = new FileReader();
+
+  const onClickUploadDiv = (e) => {
+    if (imgRef.current.contains(e.target)) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleImgUpload = () => {
+    const file = fileInputRef.current.files[0];
+    if (file) {
+      fileReader.onloadend = (e) => {
+        setImgFileUrl(fileReader.result);
+      };
+    }
+    fileReader.readAsDataURL(file);
+  };
+
+  console.log(imgFileUrl);
+
+  useEffect(() => {
+    window.addEventListener("click", onClickUploadDiv);
+    return () => window.removeEventListener("click", onClickUploadDiv);
+  });
+
+  useEffect(() => {
+    window.addEventListener("change", handleImgUpload);
+    return () => window.removeEventListener("change", handleImgUpload);
+  });
+
   return (
     <Container>
-      <ImgWrapper></ImgWrapper>
-      <ImgInput type="file" accept="image/*" />
+      <ImgWrapper ref={imgRef}></ImgWrapper>
+      <img src={imgFileUrl}></img>
+      <ImgInput ref={fileInputRef} type="file" accept="image/*" />
     </Container>
   );
 };
