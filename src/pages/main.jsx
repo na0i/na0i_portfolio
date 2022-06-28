@@ -18,4 +18,5 @@ const Container = styled.div`
   font-family: "LeferiPointWhite";
   transform: skew(-0.02deg);
   padding: 20px;
+  min-width: 930px;
 `;
