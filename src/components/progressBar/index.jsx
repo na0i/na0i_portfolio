@@ -39,7 +39,7 @@ const MenuIcon = styled.div`
 `;
 
 const MenuText = styled.div`
-  font-size: var(--font-size-10);
-  font-weight: 400;
+  font-size: var(--font-size-12);
+  font-weight: 700;
   color: ${(props) => (props.isBlue ? "#0085FF" : "black")};
 `;
