@@ -41,15 +41,15 @@ const ProfileImage = () => {
         {imgFileUrl ? (
           <Img src={imgFileUrl} />
         ) : (
-          <>
+          <NullImgWrapper>
             <NullImgText>사진을 넣어주세요.</NullImgText>
             <NullImg width="75%" />
-          </>
+          </NullImgWrapper>
         )}
+        <LineWrapper>
+          <LineImg />
+        </LineWrapper>
       </ImgWrapper>
-      <LineWrapper>
-        <LineImg />
-      </LineWrapper>
       <ImgInput ref={fileInputRef} type="file" accept="image/*" />
     </>
   );
@@ -59,7 +59,6 @@ export default ProfileImage;
 
 const ImgWrapper = styled.div`
   position: relative;
-  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,7 +66,6 @@ const ImgWrapper = styled.div`
   width: 300px;
   height: 300px;
   object-fit: cover;
-  overflow: hidden;
 
   border: 5px solid transparent;
   border-radius: 100%;
@@ -94,6 +92,19 @@ const Img = styled.img`
 
 const ImgInput = styled.input`
   display: none;
+`;
+
+const NullImgWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 300px;
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 100%;
 `;
 
 const NullImgText = styled.span`
