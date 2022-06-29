@@ -12,7 +12,11 @@ const ProfileImage = ({
   topIntroduction,
   bottomIntroduction,
 }) => {
-  // const [profileImg, setProfileImg] = useState(profileImgUrl);
+  const [profileImgTemp, setProfileImgTemp] = useState(profileImgUrl);
+  const [topIntroductionTemp, setTopIntroductionTemp] =
+    useState(topIntroduction);
+  const [bottomIntroductionTemp, setBottomIntroductionTemp] =
+    useState(bottomIntroduction);
   const fileReader = new FileReader();
   const imgRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -29,11 +33,16 @@ const ProfileImage = ({
     const file = fileInputRef.current.files[0];
     if (file) {
       fileReader.onloadend = () => {
-        // setProfileImg(fileReader.result);
+        setProfileImgTemp(fileReader.result);
         userStore.onUpdateProfileImg(fileReader.result);
       };
       fileReader.readAsDataURL(file);
     }
+  };
+
+  const onDeleteImg = () => {
+    setProfileImgTemp();
+    userStore.onUpdateProfileImg();
   };
 
   const limitMaxLength = (ref) => {
@@ -48,9 +57,11 @@ const ProfileImage = ({
       ref.current.value = newTextArr[0] + "\n" + newTextArr[1];
     }
     if (ref.current.name === "topIntroduction") {
+      setTopIntroductionTemp(ref.current.value);
       userStore.onUpdateTopIntroduction(ref.current.value);
     }
     if (ref.current.name === "bottomIntroduction") {
+      setBottomIntroductionTemp(ref.current.value);
       userStore.onUpdateBottomIntroduction(ref.current.value);
     }
   };
@@ -68,8 +79,11 @@ const ProfileImage = ({
   return (
     <>
       <Container>
-        {profileImgUrl ? (
-          <Img src={profileImgUrl} ref={imgRef} />
+        {profileImgTemp ? (
+          <ImgWrapper>
+            <Img src={profileImgTemp} ref={imgRef} />
+            <DeleteBtn onClick={onDeleteImg}>사진 삭제</DeleteBtn>
+          </ImgWrapper>
         ) : (
           <NullImgWrapper ref={imgRef}>
             <NullImgText>사진을 넣어주세요.</NullImgText>
@@ -84,7 +98,7 @@ const ProfileImage = ({
           name="topIntroduction"
           rows="2"
           maxLength="30"
-          defaultValue={null ?? topIntroduction}
+          defaultValue={null ?? topIntroductionTemp}
           placeholder="한줄 소개를 작성해보세요!&#13;&#10;저는 이런 사람이에요."
           onChange={() => limitMaxLength(topTextInputRef)}
         />
@@ -93,7 +107,7 @@ const ProfileImage = ({
           name="bottomIntroduction"
           rows="2"
           maxLength="30"
-          defaultValue={null ?? bottomIntroduction}
+          defaultValue={null ?? bottomIntroductionTemp}
           placeholder="두줄까지 입력 가능해요.&#13;&#10;글자 수는 30자까지에요."
           onChange={() => limitMaxLength(BottomTextInputRef)}
         />
@@ -131,11 +145,37 @@ const Container = styled.div`
   cursor: pointer;
 `;
 
+const ImgWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
 const Img = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 100%;
   object-fit: cover;
+`;
+
+const DeleteBtn = styled.button`
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-family: "LeferiPointWhite";
+  font-size: var(--font-size-16);
+  font-weight: 700;
+  padding: 8px 16px;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s;
+  border: 1px solid white;
+  border-radius: 5px;
+  background-color: #04549a97;
+  color: white;
+  cursor: pointer;
+  ${ImgWrapper}:hover & {
+    opacity: 1;
+  }
 `;
 
 const ImgInput = styled.input`
