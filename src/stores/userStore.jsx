@@ -47,7 +47,6 @@ const userStore = observable({
   },
 
   onUpdateGithubLink(data) {
-    console.log("d");
     let profileTemp = this.profile;
     profileTemp.githubLink = data;
     this.profile = { ...profileTemp };

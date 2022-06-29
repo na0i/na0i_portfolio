@@ -5,30 +5,35 @@ import ProfileLink from "./modules/profileLink";
 import { userStore } from "src/stores/userStore";
 
 const Profile = () => {
-  const [profileInfo, setProfileInfo] = useState(userStore.profile);
+  const [profileInfo, setProfileInfo] = useState();
 
   useEffect(() => {
-    async function getProfileData() {
+    async function fetchProfileData() {
       const response = await userStore.getProfileInfo();
-      console.log(response);
-      setProfileInfo(response);
+      setProfileInfo({ ...response });
     }
-    getProfileData();
-  }, [profileInfo.profileImg]);
+    fetchProfileData();
+  }, []);
 
   return (
     <Container>
-      <ProfileImage
-        profileImgUrl={profileInfo.profileImg}
-        topIntroduction={profileInfo.topIntroduction}
-        bottomIntroduction={profileInfo.bottomIntroduction}
-      />
-      <ProfileLink
-        githubLink={profileInfo.githubLink}
-        notionLink={profileInfo.notionLink}
-        blogLink={profileInfo.blogLink}
-        instagramLink={profileInfo.instagramLink}
-      />
+      {profileInfo ? (
+        <>
+          <ProfileImage
+            profileImgUrl={profileInfo.profileImg}
+            topIntroduction={profileInfo.topIntroduction}
+            bottomIntroduction={profileInfo.bottomIntroduction}
+          />
+          <ProfileLink
+            githubLink={profileInfo.githubLink}
+            notionLink={profileInfo.notionLink}
+            blogLink={profileInfo.blogLink}
+            instagramLink={profileInfo.instagramLink}
+          />
+        </>
+      ) : (
+        <></>
+      )}
     </Container>
   );
 };
