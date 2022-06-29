@@ -10,10 +10,15 @@ import { userStore } from "src/stores/userStore";
 
 const ProfileLink = ({ githubLink, notionLink, blogLink, instagramLink }) => {
   const inputRef = useRef();
+  const [githubLinkTemp, setGithubLinkTemp] = useState(githubLink);
+  const [notionLinkTemp, setNotionLinkTemp] = useState(notionLink);
+  const [blogLinkTemp, setBlogLinkTemp] = useState(blogLink);
+  const [instagramLinkTemp, setInstagramLinkTemp] = useState(instagramLink);
   const [isCheckActivate, setIsCheckActivate] = useState(false);
   const [iconName, setIconName] = useState();
   const [linkTemp, setLinkTemp] = useState();
   const [isInputOpen, setIsInputOpen] = useState(false);
+  console.log(githubLink, githubLinkTemp);
 
   const onOpenLinkInput = (name) => {
     setIconName(name);
@@ -30,12 +35,16 @@ const ProfileLink = ({ githubLink, notionLink, blogLink, instagramLink }) => {
 
   const onUpdateLink = (name) => {
     if (name === "Github") {
+      setGithubLinkTemp(linkTemp);
       userStore.onUpdateGithubLink(linkTemp);
     } else if (name === "Notion") {
+      setNotionLinkTemp(linkTemp);
       userStore.onUpdateNotionLink(linkTemp);
     } else if (name === "Blog") {
+      setBlogLinkTemp(linkTemp);
       userStore.onUpdateBlogLink(linkTemp);
     } else if (name === "Instagram") {
+      setInstagramLinkTemp(linkTemp);
       userStore.onUpdateInstagramLink(linkTemp);
     }
     setLinkTemp(null);
@@ -51,25 +60,25 @@ const ProfileLink = ({ githubLink, notionLink, blogLink, instagramLink }) => {
           width="22px"
           height="22px"
           onClick={() => onOpenLinkInput("Github")}
-          fill={githubLink ? "#006ED3" : "black"}
+          fill={githubLinkTemp ? "black" : "#E3E3E3"}
         />
         <NotionIcon
           width="22px"
           height="22px"
           onClick={() => onOpenLinkInput("Notion")}
-          fill={notionLink ? "#006ED3" : "black"}
+          fill={notionLinkTemp ? "black" : "#E3E3E3"}
         />
         <BlogIcon
           width="22px"
           height="22px"
           onClick={() => onOpenLinkInput("Blog")}
-          fill={blogLink ? "#006ED3" : "black"}
+          fill={blogLinkTemp ? "black" : "#E3E3E3"}
         />
         <InstagramIcon
           width="22px"
           height="22px"
           onClick={() => onOpenLinkInput("Instagram")}
-          fill={instagramLink ? "#006ED3" : "black"}
+          fill={instagramLinkTemp ? "black" : "#E3E3E3"}
         />
       </Icons>
       <InputWrapper isOpen={isInputOpen}>
