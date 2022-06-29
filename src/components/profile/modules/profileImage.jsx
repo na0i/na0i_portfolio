@@ -1,13 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
+import { userStore } from "src/stores/userStore";
 import { ReactComponent as NullImg } from "src/assets/icon/profileImage-null.svg";
 import { ReactComponent as LineImg } from "src/assets/icon/profileImage-line.svg";
 
-const ProfileImage = () => {
-  const [imgFileUrl, setImgFileUrl] = useState(null);
+const MAX_LENGTH = 2;
+const MAX_STR_LENGTH = 30;
+
+const ProfileImage = ({
+  profileImgUrl,
+  topIntroduction,
+  bottomIntroduction,
+}) => {
+  // const [profileImg, setProfileImg] = useState(profileImgUrl);
+  const fileReader = new FileReader();
   const imgRef = useRef(null);
   const fileInputRef = useRef(null);
-  const fileReader = new FileReader();
+  const topTextInputRef = useRef(null);
+  const BottomTextInputRef = useRef(null);
 
   const onClickImgUploadDiv = (e) => {
     if (imgRef.current.contains(e.target)) {
@@ -19,9 +29,29 @@ const ProfileImage = () => {
     const file = fileInputRef.current.files[0];
     if (file) {
       fileReader.onloadend = () => {
-        setImgFileUrl(fileReader.result);
+        // setProfileImg(fileReader.result);
+        userStore.onUpdateProfileImg(fileReader.result);
       };
       fileReader.readAsDataURL(file);
+    }
+  };
+
+  const limitMaxLength = (ref) => {
+    const text = ref.current.value;
+    const textArr = ref.current.value.split("\n");
+    const rows = textArr.length;
+    if (text.length > MAX_STR_LENGTH) {
+      ref.current.value = text.slice(0, -1);
+    }
+    if (rows > MAX_LENGTH) {
+      const newTextArr = textArr.slice(0, MAX_LENGTH);
+      ref.current.value = newTextArr[0] + "\n" + newTextArr[1];
+    }
+    if (ref.current.name === "topIntroduction") {
+      userStore.onUpdateTopIntroduction(ref.current.value);
+    }
+    if (ref.current.name === "bottomIntroduction") {
+      userStore.onUpdateBottomIntroduction(ref.current.value);
     }
   };
 
@@ -37,11 +67,11 @@ const ProfileImage = () => {
 
   return (
     <>
-      <ImgWrapper ref={imgRef}>
-        {imgFileUrl ? (
-          <Img src={imgFileUrl} />
+      <Container>
+        {profileImgUrl ? (
+          <Img src={profileImgUrl} ref={imgRef} />
         ) : (
-          <NullImgWrapper>
+          <NullImgWrapper ref={imgRef}>
             <NullImgText>사진을 넣어주세요.</NullImgText>
             <NullImg width="75%" />
           </NullImgWrapper>
@@ -49,7 +79,25 @@ const ProfileImage = () => {
         <LineWrapper>
           <LineImg />
         </LineWrapper>
-      </ImgWrapper>
+        <TopInput
+          ref={topTextInputRef}
+          name="topIntroduction"
+          rows="2"
+          maxLength="30"
+          defaultValue={null ?? topIntroduction}
+          placeholder="한줄 소개를 작성해보세요!&#13;&#10;저는 이런 사람이에요."
+          onChange={() => limitMaxLength(topTextInputRef)}
+        />
+        <BottomInput
+          ref={BottomTextInputRef}
+          name="bottomIntroduction"
+          rows="2"
+          maxLength="30"
+          defaultValue={null ?? bottomIntroduction}
+          placeholder="두줄까지 입력 가능해요.&#13;&#10;글자 수는 30자까지에요."
+          onChange={() => limitMaxLength(BottomTextInputRef)}
+        />
+      </Container>
       <ImgInput ref={fileInputRef} type="file" accept="image/*" />
     </>
   );
@@ -57,7 +105,7 @@ const ProfileImage = () => {
 
 export default ProfileImage;
 
-const ImgWrapper = styled.div`
+const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -114,7 +162,7 @@ const NullImgText = styled.span`
   font-weight: 700;
   transition: all 0.5s;
 
-  ${ImgWrapper}:hover & {
+  ${Container}:hover & {
     opacity: 1;
   }
 `;
@@ -125,4 +173,34 @@ const LineWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+`;
+
+const TopInput = styled.textarea`
+  position: absolute;
+  top: 0;
+  width: 440px;
+  text-align: left;
+  border: transparent;
+  font-family: "LeferiPointWhite";
+  font-size: var(--font-size-16);
+  font-weight: 700;
+  outline-color: transparent;
+  resize: none;
+  transform: translate(365px, -16px);
+  overflow-y: hidden;
+`;
+
+const BottomInput = styled.textarea`
+  position: absolute;
+  bottom: 0;
+  width: 440px;
+  text-align: right;
+  border: transparent;
+  font-family: "LeferiPointWhite";
+  font-size: var(--font-size-16);
+  font-weight: 700;
+  transform: translate(-365px, 16px);
+  outline-color: transparent;
+  resize: none;
+  overflow-y: hidden;
 `;
