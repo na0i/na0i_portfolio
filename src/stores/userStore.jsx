@@ -73,6 +73,13 @@ const userStore = observable({
     this.profile = { ...profileTemp };
     this.setProfileInfo();
   },
+
+  onUpdateProfileName(data) {
+    let profileTemp = this.profile;
+    profileTemp.name = data;
+    this.profile = { ...profileTemp };
+    this.setProfileInfo();
+  },
 });
 
 export { userStore };

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ProfileImage from "./modules/profileImage";
 import ProfileLink from "./modules/profileLink";
 import { userStore } from "src/stores/userStore";
+import ProfileName from "./modules/profileName";
 
 const Profile = () => {
   const [profileInfo, setProfileInfo] = useState();
@@ -30,6 +31,7 @@ const Profile = () => {
             blogLink={profileInfo.blogLink}
             instagramLink={profileInfo.instagramLink}
           />
+          <ProfileName name={profileInfo.name} />
         </>
       ) : (
         <></>
