@@ -2,12 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import ProgressBar from "src/components/progressBar";
 import Profile from "src/components/profile";
+import BasicInfo from "src/components/basicInfo";
 
 const Main = () => {
   return (
     <Container>
       <ProgressBar />
       <Profile />
+      <BasicInfo />
     </Container>
   );
 };
