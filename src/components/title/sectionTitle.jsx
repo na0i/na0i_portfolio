@@ -5,7 +5,6 @@ const SectionTitle = ({ text }) => {
   return (
     <Container>
       <Title>{text}</Title>
-      <Line></Line>
     </Container>
   );
 };
@@ -14,16 +13,11 @@ export default SectionTitle;
 
 const Container = styled.div`
   position: relative;
+  margin-bottom: 2rem;
 `;
 
-const Title = styled.div`
+const Title = styled.span`
   font-size: 25px;
-`;
-
-const Line = styled.div`
-  position: relative;
-  z-index: -1;
-  bottom: 0.4rem;
-  height: 0.5rem;
-  background-color: #cee8ff;
+  font-weight: 700;
+  background: linear-gradient(to top, #cee8ff 20%, transparent 40%);
 `;
