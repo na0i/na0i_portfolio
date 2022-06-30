@@ -18,11 +18,10 @@ const ProfileLink = ({ githubLink, notionLink, blogLink, instagramLink }) => {
   const [iconName, setIconName] = useState();
   const [linkTemp, setLinkTemp] = useState();
   const [isInputOpen, setIsInputOpen] = useState(false);
-  console.log(githubLink, githubLinkTemp);
 
   const onOpenLinkInput = (name) => {
     setIconName(name);
-    setIsInputOpen(true);
+    setIsInputOpen(!isInputOpen);
   };
 
   const onUpdateLinkTemp = (e) => {
@@ -30,6 +29,18 @@ const ProfileLink = ({ githubLink, notionLink, blogLink, instagramLink }) => {
     setIsCheckActivate(true);
     if (e.target.value === "") {
       setIsCheckActivate(false);
+    }
+  };
+
+  const setDefaultLink = (name) => {
+    if (name === "Github") {
+      return githubLinkTemp;
+    } else if (name === "Notion") {
+      return notionLinkTemp;
+    } else if (name === "Blog") {
+      return blogLinkTemp;
+    } else if (name === "Instagram") {
+      return instagramLinkTemp;
     }
   };
 
@@ -85,6 +96,7 @@ const ProfileLink = ({ githubLink, notionLink, blogLink, instagramLink }) => {
         <Input
           ref={inputRef}
           type="text"
+          defaultValue={setDefaultLink(iconName)}
           placeholder={`내 ${iconName} 링크를 입력하세요.`}
           onChange={onUpdateLinkTemp}
         />
@@ -108,7 +120,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin: 1.5rem 0px;
 `;
 
 const Icons = styled.div`
