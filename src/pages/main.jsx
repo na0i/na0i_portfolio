@@ -9,7 +9,11 @@ const Main = () => {
     <Container>
       <ProgressBar />
       <Profile />
-      <BasicInfo />
+      <div className="justify-between">
+        <BasicInfo />
+        <BasicInfo />
+        <BasicInfo />
+      </div>
     </Container>
   );
 };
