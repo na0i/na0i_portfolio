@@ -3,7 +3,7 @@ import { observable } from "mobx";
 const userStore = observable({
   // state
   profile: {
-    name: "나영",
+    name: null,
     profileImg: null,
     topIntroduction: null,
     bottomIntroduction: null,

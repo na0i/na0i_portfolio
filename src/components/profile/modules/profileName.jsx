@@ -12,7 +12,6 @@ const ProfileName = ({ name }) => {
 
   const onNameInput = (e) => {
     let text = e.target.innerText;
-    // console.log(text);
     onUpdateName(text);
     if (text.length > MAX_NAME_LENGTH) {
       alert("이름은 최대 7글자까지 입력 가능합니다.");
