@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import SectionTitle from "../title/sectionTitle";
+import SectionTitle from "src/components/title/sectionTitle";
+import AddressDialog from "./addressDialog";
 
 const BasicInfo = () => {
   const [isBirthdayValid, setIsBirthdayValid] = useState(true);
   const [isEmailValid, setIsEmailVaild] = useState(true);
   const [isContactValid, setIsContactValid] = useState(true);
   const inputRef = useRef([]);
+
   const BasicInfoList = [
     {
       id: 0,
@@ -23,12 +25,7 @@ const BasicInfo = () => {
     {
       id: 1,
       title: "거주지",
-      component: (
-        <Input
-          ref={(el) => (inputRef.current[1] = el)}
-          placeholder="개발도 개발시 개발군"
-        />
-      ),
+      component: <AddressDialog />,
     },
     {
       id: 2,
