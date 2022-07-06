@@ -13,6 +13,13 @@ const userStore = observable({
     instagramLink: null,
   },
 
+  basicInfo: {
+    birthday: null,
+    address: null,
+    email: null,
+    contact: null,
+  },
+
   // action
   async getProfileInfo() {
     if (localStorage.getItem("profileInfo")) {
@@ -23,6 +30,17 @@ const userStore = observable({
 
   setProfileInfo() {
     localStorage.setItem("profileInfo", JSON.stringify(this.profile));
+  },
+
+  async getBasicInfo() {
+    if (localStorage.getItem("basicInfo")) {
+      this.profile = JSON.parse(localStorage.getItem("basicInfo"));
+    }
+    return this.profile;
+  },
+
+  setBasicInfo() {
+    localStorage.setItem("basicInfo", JSON.stringify(this.basicInfo));
   },
 
   onUpdateProfileImg(data) {
@@ -79,6 +97,34 @@ const userStore = observable({
     profileTemp.name = data;
     this.profile = { ...profileTemp };
     this.setProfileInfo();
+  },
+
+  onUpdateBirthday(data) {
+    let basicInfoTemp = this.basicInfo;
+    basicInfoTemp.birthday = data;
+    this.basicInfo = { ...basicInfoTemp };
+    this.setBasicInfo();
+  },
+
+  onUpdateAddress(data) {
+    let basicInfoTemp = this.basicInfo;
+    basicInfoTemp.address = data;
+    this.basicInfo = { ...basicInfoTemp };
+    this.setBasicInfo();
+  },
+
+  onUpdateEmail(data) {
+    let basicInfoTemp = this.basicInfo;
+    basicInfoTemp.email = data;
+    this.basicInfo = { ...basicInfoTemp };
+    this.setBasicInfo();
+  },
+
+  onUpdateContact(data) {
+    let basicInfoTemp = this.basicInfo;
+    basicInfoTemp.contact = data;
+    this.basicInfo = { ...basicInfoTemp };
+    this.setBasicInfo();
   },
 });
 
