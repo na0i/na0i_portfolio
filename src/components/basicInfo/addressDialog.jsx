@@ -1,31 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import DaumPostCode from "react-daum-postcode";
+import DaumPostcode from "react-daum-postcode";
 
-const AddressDialog = () => {
-  const [address, setAddress] = useState(null);
-  const handleAddress = (data) => {
-    let fullAddr = data.address;
-    let extraAddr = "";
+const AddressDialog = ({ isOpen, setIsOpen, address, setAddress }) => {
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = "";
 
     if (data.addressType === "R") {
       if (data.bname !== "") {
-        extraAddr += data.bname;
+        extraAddress += data.bname;
       }
       if (data.buildingName !== "") {
-        extraAddr +=
-          extraAddr !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
-      fullAddr += extraAddr !== "" ? ` (${extraAddr})` : "";
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
+    setAddress(fullAddress);
+    closeDialog();
+  };
 
-    setAddress(data.zonecode);
+  const closeDialog = () => {
+    setIsOpen(false);
   };
 
   return (
-    <Container>
-      <DaumPostCode />
-    </Container>
+    <>
+      {isOpen ? (
+        <Container isOpen={isOpen}>
+          <CloseBtn onClick={closeDialog}>닫기</CloseBtn>
+          <DaumPostcode onComplete={handleComplete} />
+        </Container>
+      ) : null}
+    </>
   );
 };
 
@@ -37,6 +45,17 @@ const Container = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 1px solid black;
-  padding: 10px;
+  border: 2px solid #000000;
+  width: 500px;
+`;
+
+const CloseBtn = styled.button`
+  width: 100%;
+  background-color: #cde6ff;
+  border: transparent;
+  font-family: "LeferiPointWhite";
+  font-weight: 700;
+  font-size: var(--font-size-16);
+  border-bottom: 2px solid #67b3ff;
+  cursor: pointer;
 `;
