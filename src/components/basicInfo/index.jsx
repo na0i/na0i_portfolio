@@ -15,22 +15,6 @@ const BasicInfo = () => {
     fetchBasicInfoData();
   }, []);
 
-  const onUpdateBirthday = (data) => {
-    userStore.onUpdateBirthday(data);
-  };
-
-  const onUpdateAddress = (data) => {
-    userStore.onUpdateAddress(data);
-  };
-
-  const onUpdateEmail = (data) => {
-    userStore.onUpdateEmail(data);
-  };
-
-  const onUpdateContact = (data) => {
-    userStore.onUpdateContact(data);
-  };
-
   return (
     <>
       {basicInfo ? (
@@ -41,10 +25,6 @@ const BasicInfo = () => {
             address={basicInfo.address}
             email={basicInfo.email}
             contact={basicInfo.contact}
-            onUpdateBirthday={onUpdateBirthday}
-            onUpdateAddress={onUpdateAddress}
-            onUpdateEmail={onUpdateEmail}
-            onUpdateContact={onUpdateContact}
           />
         </Container>
       ) : null}

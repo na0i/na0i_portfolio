@@ -1,17 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
+import { userStore } from "src/stores/userStore";
 import styled from "styled-components";
 import AddressDialog from "./addressDialog";
 
-const BasicInfoItems = ({
-  birthday,
-  address,
-  email,
-  contact,
-  onUpdateBirthday,
-  onUpdateAddress,
-  onUpdateEmail,
-  onUpdateContact,
-}) => {
+const BasicInfoItems = ({ birthday, address, email, contact }) => {
   const [birthDayTemp, setBirthDayTemp] = useState(birthday);
   const [addressTemp, setAddressTemp] = useState(address);
   const [emailTemp, setEmailTemp] = useState(email);
@@ -40,7 +32,7 @@ const BasicInfoItems = ({
       /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
     if (e.target.value.match(pattern)) {
       setIsEmailVaild(true);
-      onUpdateEmail(e.target.value);
+      setEmailTemp(e.target.value);
     } else setIsEmailVaild(false);
   };
 
@@ -65,8 +57,16 @@ const BasicInfoItems = ({
     }
   };
 
+  const updateBasicInfo = () => {
+    userStore.onUpdateBirthday(birthDayTemp);
+    userStore.onUpdateAddress(addressTemp);
+    userStore.onUpdateEmail(emailTemp);
+    userStore.onUpdateContact(contactTemp);
+  };
+
   useEffect(() => {
     window.addEventListener("keypress", onEnterDown);
+
     return () => {
       window.removeEventListener("keypress", onEnterDown);
     };
@@ -82,7 +82,7 @@ const BasicInfoItems = ({
           isValid={isBirthdayValid}
           defaultValue={null ?? birthday}
           onChange={(e) => formattedAndValidateBirthday(e)}
-          onBlur={(e) => onUpdateBirthday(birthDayTemp)}
+          onBlur={updateBasicInfo}
         />
       ),
     },
@@ -94,7 +94,7 @@ const BasicInfoItems = ({
             onClick={() => setIsAddrDialogOpen(true)}
             placeholder="거주지를 입력하세요."
             defaultValue={null ?? addressTemp}
-            onBlur={(e) => onUpdateAddress(e.target.value)}
+            onBlur={updateBasicInfo}
           />
           <AddressDialog
             addressTemp={addressTemp}
@@ -114,7 +114,7 @@ const BasicInfoItems = ({
           isValid={isEmailValid}
           defaultValue={null ?? email}
           onChange={(e) => validateEmail(e)}
-          // onBlur={(e) => onUpdateEmail(emailTemp)}
+          onBlur={updateBasicInfo}
         />
       ),
     },
@@ -127,23 +127,21 @@ const BasicInfoItems = ({
           isValid={isContactValid}
           defaultValue={null ?? contact}
           onChange={(e) => formattedAndValidateContact(e)}
-          onBlur={(e) => onUpdateContact(contactTemp)}
+          onBlur={updateBasicInfo}
         />
       ),
     },
   ];
 
   return (
-    <>
-      <Items>
-        {BasicInfoList.map((item) => (
-          <Item key={item.title}>
-            <ItemTitle>{item.title}</ItemTitle>
-            <ItemComponent>{item.component}</ItemComponent>
-          </Item>
-        ))}
-      </Items>
-    </>
+    <Items>
+      {BasicInfoList.map((item) => (
+        <Item key={item.title}>
+          <ItemTitle>{item.title}</ItemTitle>
+          <ItemComponent>{item.component}</ItemComponent>
+        </Item>
+      ))}
+    </Items>
   );
 };
 
