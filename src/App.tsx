@@ -8,6 +8,7 @@ import {
 } from "./components/ui/dialog";
 import Chatbot from "./projectDialog/Chatbot";
 import MAM from "./projectDialog/MAM";
+import MLOps from "./projectDialog/MLOps";
 import NamBTI from "./projectDialog/NamBTI";
 import RGNews from "./projectDialog/RGNews";
 import Solver from "./projectDialog/Solver";
@@ -20,8 +21,14 @@ const App = () => {
       dialogContent: <MAM />,
       img: "",
       company: "Innodep",
-      period: "2024. - 2023.12",
-      skills: ["React", "TypeScript", "Styled-Components"],
+      period: "2024.05 ~ 진행중",
+      skills: [
+        "React",
+        "TypeScript",
+        "Recoil",
+        "Styled-Components",
+        "Tanstack Query",
+      ],
       position: "프론트엔드",
     },
     {
@@ -29,17 +36,24 @@ const App = () => {
       dialogContent: <Statistics />,
       img: "",
       company: "Innodep",
-      period: "2023.01 - 2023.12",
-      skills: ["React", "TypeScript", "Styled-Components"],
+      period: "2024.09 - 진행중",
+      skills: [
+        "React",
+        "TypeScript",
+        "Recoil",
+        "Styled-Components",
+        "SWR",
+        "ECharts",
+      ],
       position: "프론트엔드",
     },
     {
       name: "MLOps",
-      dialogContent: <div></div>,
+      dialogContent: <MLOps />,
       img: "",
       company: "Innodep",
-      period: "2023.01 - 2023.12",
-      skills: ["React", "TypeScript", "Styled-Components"],
+      period: "2023.10 - 2024.03",
+      skills: ["React", "TypeScript", "Recoil", "Styled-Components"],
       position: "프론트엔드",
     },
     {
@@ -48,7 +62,14 @@ const App = () => {
       img: "",
       company: "TmaxAI",
       period: "2023.01 - 2023.12",
-      skills: ["React", "TypeScript", "Styled-Components"],
+      skills: [
+        "React",
+        "TypeScript",
+        "Recoil",
+        "Styled-Components",
+        "SWR",
+        "ReactFlow",
+      ],
       position: "프론트엔드",
     },
     {
@@ -57,7 +78,7 @@ const App = () => {
       img: "",
       company: "TmaxAI",
       period: "2023.01 - 2023.12",
-      skills: ["React", "TypeScript", "Styled-Components"],
+      skills: ["React", "TypeScript", "Recoil", "Styled-Components"],
       position: "프론트엔드",
     },
     {
@@ -81,10 +102,33 @@ const App = () => {
   ];
 
   return (
-    <div className="w-screen min-h-screen flex flex-col gap-5 p-10 ">
-      <h1 className="text-3xl text-center font-bold">Nayoung</h1>
-      <h2 className="text-xl text-center font-bold">Frontend Engineer</h2>
-      <h2 className="text-xl text-center font-bold">Experience</h2>
+    <div className="w-screen min-h-screen flex flex-col gap-7 p-10 ">
+      <h1 className="text-4xl text-center font-bold">Park Nayoung</h1>
+      <h2 className="text-2xl text-center font-bold">Frontend Engineer</h2>
+      <div className="flex">
+        <div className="flex-1 text-center">
+          <h5 className="text-lg font-bold mb-1">
+            👂 사용자 경험에 민감한 개발자입니다.
+          </h5>
+          <p className="text-center">
+            사용자 관점에서 끊임없이 고민하고 개선하려는 자세가 제가 갖추어
+            나가야할 스탠스라고 생각합니다. <br /> 백엔드, 디자이너와 적극적인
+            커뮤니케이션을 통해 기획에 참여함으로써 더 나은 UI/UX라는 목표를
+            향해 나아갑니다.
+          </p>
+        </div>
+        <div className="flex-1">
+          <h5 className="text-lg font-bold mb-1 text-center">
+            📚 배움과 성장은 함께, 성장을 적극 도모합니다.
+          </h5>
+          <p className="text-center">
+            조직의 성장을 위해 지식을 공유하는 시간을 소중히 여깁니다. <br />
+            세미나와 개발 문서 작성을 통한 신뢰의 문화를 추구해 조직내의 협업
+            증대에 기여합니다.
+          </p>
+        </div>
+      </div>
+      <h2 className="text-2xl text-center font-bold mt-5">Experience</h2>
       <div className="grid grid-cols-3 gap-5">
         {expreience.map(
           ({ img, name, company, position, skills, period, dialogContent }) => (

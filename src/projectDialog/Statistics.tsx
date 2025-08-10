@@ -25,10 +25,12 @@ const Statistics = () => {
         <ul className="list-disc pl-5 flex flex-col gap-1">
           <li>프로젝트 단독 프론트엔드 개발</li>
           <li>ECharts 라이브러리를 사용해 다양한 차트와 함께 데이터 표출</li>
-          <li>windowing 기법을 사용해 8000+ 요소의 렌더링을 부드럽게 최적화</li>
+          <li>
+            windowing 기법을 사용해 10000+ 요소의 렌더링을 부드럽게 최적화
+          </li>
           <li>차트 데이터를 이미지, 엑셀로 변환해 데이터 활용 제고</li>
-          <li>SWR을 사용해 크기가 큰 지도 데이터의 렌더링 최적화</li>
-          <li>API 개선에 참여</li>
+          <li>SWR을 사용해 크기가 큰 데이터 렌더링 성능 개선</li>
+          <li>Backend 개발자와 소통하여 API 프로토콜 형태 개선에 참여</li>
         </ul>
       </div>
 
